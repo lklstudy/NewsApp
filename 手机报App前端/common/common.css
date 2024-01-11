@@ -1,0 +1,13 @@
+/* 全局公共样式文件 */
+
+page{
+	background-image: linear-gradient(to top, #3a5756, #335254, #2d4d51, #28474f, #23424c, #26404c, #293e4c, #2c3c4b, #353d4c, #3d3f4c, #43414b, #48434b);
+}
+
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

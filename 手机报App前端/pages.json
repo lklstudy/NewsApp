@@ -3,7 +3,18 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "uni-app",
+				"backgroundColor": "#48434B"
+			}
+		},
+		{
+			"path" : "pages/login/login",
+			"style" : 
+			{
+				"navigationStyle":"custom",
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false,
+				"backgroundColorTop": "#1E3B48"		
 			}
 		}
 	],
