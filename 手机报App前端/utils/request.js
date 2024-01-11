@@ -23,10 +23,7 @@ module.exports = (vm) => {
 	
 	// 响应拦截
 	uni.$u.http.interceptors.response.use((response) => { /* 对响应成功做点什么 可使用async await 做异步操作*/
-		console.log(123);
-		console.log(response);
 		const data = response.data
-		console.log(data);
 
 		// // 自定义参数
 		// const custom = response.config?.custom
@@ -44,7 +41,7 @@ module.exports = (vm) => {
 		// 		return new Promise(() => { })
 		// 	}
 		// }
-		return data.data === undefined ? {} : data.data
+		return data
 	}, (response) => { 
 		// 对响应错误做点什么 （statusCode !== 200）
 		return Promise.reject(response)

@@ -7,6 +7,7 @@
 	</view>
 </template>
 
+
 <script>
 	import { getMenu } from '@/utils/api/login.js'
 	import { data } from 'uview-ui/libs/mixin/mixin';
@@ -18,9 +19,8 @@
 			}
 		},
 		onLoad() {
-			getMenu().then(res=>{
-				console.log(123);
-				console.log(res.data);
+			getMenu('3103313195@qq.com').then(res=>{
+				console.log(res);
 			})
 		},
 		

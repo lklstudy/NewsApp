@@ -4,4 +4,4 @@ const http = uni.$u.http
 // export const postMenu = (params, config = {}) => http.post('/ebapi/public_api/index', params, config)
 
 //收藏列表
-export const getMenu = (data) => http.get('/user/test',data)
+export const getMenu = (data) => http.get('/user/getUser',{params:{email:data}})
