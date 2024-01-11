@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		<image class="logo" src="/static/logo.png"></image>
+		<image class="logo" src="@/static/logo.png"></image>
 		<view class="text-area">
 			<text class="title">{{title}}</text>
 		</view>
@@ -8,6 +8,9 @@
 </template>
 
 <script>
+	import { getMenu } from '@/utils/api/login.js'
+	import { data } from 'uview-ui/libs/mixin/mixin';
+	
 	export default {
 		data() {
 			return {
@@ -15,8 +18,12 @@
 			}
 		},
 		onLoad() {
-
+			getMenu().then(res=>{
+				console.log(123);
+				console.log(res);
+			})
 		},
+		
 		methods: {
 
 		}
