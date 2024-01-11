@@ -1,0 +1,22 @@
+spring:
+  profiles:
+    active: dev
+
+
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 1000MB
+
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml # mapper映射文件
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #    分布查询,懒加载
+    #    返回类型的前缀
+  #    lazy-loading-enabled: true
+  type-aliases-package: com.lkl.domain
+
+

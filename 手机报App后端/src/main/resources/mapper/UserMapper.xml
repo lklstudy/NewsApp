@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lkl.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.lkl.domain.User">
+            <id property="userid" column="userID" jdbcType="INTEGER"/>
+            <result property="username" column="username" jdbcType="VARCHAR"/>
+            <result property="password" column="password" jdbcType="VARCHAR"/>
+            <result property="email" column="email" jdbcType="VARCHAR"/>
+            <result property="registrationtime" column="registrationTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        userID,username,password,
+        email,registrationTime
+    </sql>
+
+    <select id="selectByEmailUser" resultType="com.lkl.domain.User">
+        select * from user where email = #{emial}
+    </select>
+</mapper>

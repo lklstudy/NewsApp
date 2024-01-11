@@ -3,7 +3,7 @@ module.exports = (vm) => {
     // 初始化请求配置
     uni.$u.http.setConfig((config) => {
         /* config 为默认全局配置*/
-        config.baseURL = 'http://uat.banlu.xuexiluxian.cn/'; /* 根域名 */   
+        config.baseURL = 'http://localhost:9090'; /* 根域名 */   
         return config
     })
 	
@@ -23,6 +23,8 @@ module.exports = (vm) => {
 	
 	// 响应拦截
 	uni.$u.http.interceptors.response.use((response) => { /* 对响应成功做点什么 可使用async await 做异步操作*/
+		console.log(123);
+		console.log(response);
 		const data = response.data
 		console.log(data);
 

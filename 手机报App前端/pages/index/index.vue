@@ -20,7 +20,7 @@
 		onLoad() {
 			getMenu().then(res=>{
 				console.log(123);
-				console.log(res);
+				console.log(res.data);
 			})
 		},
 		

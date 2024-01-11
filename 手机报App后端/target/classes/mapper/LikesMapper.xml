@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lkl.mapper.LikesMapper">
+
+    <resultMap id="BaseResultMap" type="com.lkl.domain.Likes">
+            <id property="likeid" column="likeID" jdbcType="INTEGER"/>
+            <result property="userid" column="userID" jdbcType="INTEGER"/>
+            <result property="newsid" column="newsID" jdbcType="INTEGER"/>
+            <result property="liketime" column="likeTime" jdbcType="TIMESTAMP"/>
+            <result property="liketype" column="likeType" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        likeID,userID,newsID,
+        likeTime,likeType
+    </sql>
+</mapper>
