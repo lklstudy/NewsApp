@@ -1,3 +1,8 @@
+<style lang="scss">
+	@import "uview-ui/index.scss";
+	@import "cl-uni/index.scss";
+</style>
+
 <script>
 	export default {
 		onLaunch: function() {
@@ -12,7 +17,7 @@
 	}
 </script>
 
-<style>
-	/*每个页面公共css */
-	
-</style>
+
+<!-- // <style lang="scss">
+// 	@import "cl-uni/index.scss";
+// </style> -->

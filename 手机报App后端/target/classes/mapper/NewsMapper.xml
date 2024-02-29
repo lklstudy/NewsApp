@@ -21,4 +21,13 @@
         tags,typeID,userID,
         createTime,updateTime,reviewID
     </sql>
+    <select id="getNewsById" resultType="map">
+        select n1.title,n1.createTime,(select count(*) from likes where likes.newsID = newsID) as likesNumber,(select count(*) from favorite where favorite.newsID = newsID) as collectNumber,n1.content,n1.newsAtar,u.username,
+               (select count(*) from likes where likes.newsID = newsID and likes.userID = #{userid}) as myLike,
+               (select count(*) from favorite where favorite.newsID = newsID and favorite.userID = #{userid}) as myCollect
+        from news n1
+                 left join user u on n1.userID = u.userID
+        where newsID = #{newsid}
+
+    </select>
 </mapper>

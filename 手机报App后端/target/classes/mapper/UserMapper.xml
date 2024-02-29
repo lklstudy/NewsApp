@@ -20,4 +20,20 @@
     <select id="selectByEmailUser" resultType="com.lkl.domain.User">
         select * from user where email = #{emial}
     </select>
+
+    <select id="addUserByEmail" resultType="integer">
+        INSERT INTO user (username, password, email, registrationTime)
+        VALUES ("追风少年", #{password}, #{email}, NOW());
+    </select>
+
+    <select id="loginByEmail" resultType="map">
+        select u.userID from user u where email = #{email} and password = #{password}
+    </select>
+
+    <select id="getUserByEmail" resultType="java.lang.Integer">
+        select count(*) from user where email = #{email}
+    </select>
+
+
+
 </mapper>

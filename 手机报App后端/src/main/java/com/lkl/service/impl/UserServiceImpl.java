@@ -7,6 +7,7 @@ import com.lkl.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
 * @author 31033
@@ -22,6 +23,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public User selectUserByEmail(String email) {
         return userMapper.selectByEmailUser(email);
+    }
+
+    @Override
+    public Integer addUserByEmail(User user) {
+        Integer res = userMapper.addUserByEmail(user);
+        Integer userId = userMapper.getUserId(user);
+        Integer res2 = userMapper.addUserInfo(userId);
+        return res;
+    }
+
+    @Override
+    public Map<String,Object> loginByEmail(User user) {
+        return userMapper.loginByEmail(user);
+    }
+
+    public Integer getUserByEmail(String email){
+        return userMapper.getUserByEmail(email);
     }
 }
 

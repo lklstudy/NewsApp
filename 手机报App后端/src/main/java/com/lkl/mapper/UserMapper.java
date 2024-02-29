@@ -2,7 +2,10 @@ package com.lkl.mapper;
 
 import com.lkl.domain.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.lkl.domain.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.Map;
 
 
 /**
@@ -15,6 +18,18 @@ import org.apache.ibatis.annotations.Mapper;
 public interface UserMapper extends BaseMapper<User> {
 
     User selectByEmailUser(String email);
+
+    Integer addUserByEmail(User user);
+
+    Integer getUserId(User user);
+
+    Integer addUserInfo(Integer userId);
+
+    Map<String,Object> loginByEmail(User user);
+
+    Integer getUserByEmail(String email);
+
+
 }
 
 

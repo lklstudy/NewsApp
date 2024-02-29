@@ -1,4 +1,14 @@
 {
+	"easycom": {
+		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue",
+		"cl-(.*)": "cl-uni/components/cl-$1/cl-$1.vue"
+		
+		// "autoscan": true,
+		// "custom": {
+		// 	// 1.1.0 版本后:
+		// 	"cl-(.*)": "cl-uni/components/cl-$1/cl-$1.vue"
+		// }
+	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
 			"path": "pages/index/index",
@@ -12,9 +22,33 @@
 			"style" : 
 			{
 				"navigationStyle":"custom",
-				"navigationBarTitleText" : "",
+				"navigationBarTitleText" : "登录",
 				"enablePullDownRefresh" : false,
 				"backgroundColorTop": "#1E3B48"		
+			}
+		},
+		{
+			"path" : "pages/logon/logon",
+			"style" : 
+			{
+				"navigationBarTitleText" : "注册",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/comment/comment",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/detail/detail",
+			"style" : 
+			{
+				"navigationBarTitleText" : "新闻详情",
+				"enablePullDownRefresh" : false
 			}
 		}
 	],
