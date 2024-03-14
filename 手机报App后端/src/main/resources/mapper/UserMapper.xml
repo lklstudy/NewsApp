@@ -18,8 +18,24 @@
     </sql>
     <insert id="addUserInfo">
         INSERT INTO user_info (userID, avatar,creationTime)
-        VALUES (#{userId}, "/static/bendi/QQ图片20240120130608.jpg", NOW());
+        VALUES (#{userId}, "/static/bendi/QQ图片20240120130608.jpg", CURDATE());
     </insert>
+
+    <insert id="addFollower">
+        INSERT INTO follow (folleredID, followerID,followTime)
+        VALUES (#{followedID}, #{userID}, NOW());
+    </insert>
+
+    <update id="updateUserInfo">
+        update user u
+            left join user_info ui on u.userID = ui.userID
+            set u.username = #{userName} , ui.avatar = #{userAtar}
+        where u.userID = #{userID}
+    </update>
+
+    <delete id="delFollower">
+        delete from follow where folleredID = #{followedID} and followerID = #{userID}
+    </delete>
 
     <select id="selectByEmailUser" resultType="com.lkl.domain.User">
         select * from user where email = #{emial}
@@ -27,7 +43,7 @@
 
     <select id="addUserByEmail" resultType="integer">
         INSERT INTO user (username, password, email, registrationTime)
-        VALUES ("追风少年", #{password}, #{email}, NOW());
+        VALUES (#{userNum}, #{password}, #{email}, CURDATE());
     </select>
 
     <select id="loginByEmail" resultType="map">
@@ -40,6 +56,29 @@
 
     <select id="getUserId" resultType="java.lang.Integer">
         select userID from user where email = #{email}
+    </select>
+
+    <select id="getUserAllInfo" resultType="java.util.Map">
+        select u1.*,u2.nickname, u2.gender, u2.birthday, u2.avatar, u2.region from user u1
+        left join user_info u2
+        on u1.userID = u2.userID
+        where u1.userID = #{userID}
+    </select>
+
+    <select id="selectFollowers" resultType="java.util.Map">
+        select u.userID,u.username,ui.avatar,(select count(*) from follow f where f.folleredID = u.userID) as followNum
+
+        from follow f
+         left join user u on f.folleredID = u.userID
+         left join user_info ui on u.userID = ui.userID
+        where f.followerID = #{userID}
+    </select>
+
+    <select id="selectFollower" resultType="java.lang.Integer">
+        select COUNT(*) from follow where folleredID = #{followedID} and followerID = #{userID}
+    </select>
+    <select id="selectUserNum" resultType="java.lang.Integer">
+        select count(*) from user
     </select>
 
 

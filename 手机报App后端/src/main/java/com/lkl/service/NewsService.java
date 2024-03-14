@@ -3,6 +3,7 @@ package com.lkl.service;
 import com.lkl.domain.News;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,4 +14,19 @@ import java.util.Map;
 public interface NewsService extends IService<News> {
 
     Map<String,Object> getNewsById(String newsid,String userid);
+
+    List<Map<String, Object>> getType();
+
+
+    Integer addType(String typeName,String userID);
+
+    Integer delAndEditType(String typeName, String typeID);
+
+    Integer addNews(Map<String, String> params);
+
+    List<Map<String, Object>> getNewsByTitle(Map<String, String> params);
+
+    Object delOrUpdateNews(Map<String, Object> params);
+
+    Object searchCollectionNews(Map<String, Object> params);
 }

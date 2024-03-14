@@ -16,6 +16,31 @@
         commentID,userID,newsID,
         content,commentTime
     </sql>
+    <insert id="addcollection">
+        insert into favorite (userID, newsID, favoriteTime) values (#{userID},#{newsID},NOW())
+    </insert>
 
+    <insert id="addlike">
+        insert into likes (userID, newsID, likeTime) values (#{userID},#{newsID},NOW())
+    </insert>
+
+    <insert id="addComment">
+        insert into comment (userID, newsID, content,commentTime) values (#{userID},#{newsID},#{content},NOW());
+    </insert>
+
+    <delete id="delcollection">
+        delete from favorite where userID = #{userID} and newsID = #{newsID}
+    </delete>
+    <delete id="dellike">
+        delete from likes where userID = #{userID} and newsID = #{newsID}
+    </delete>
+
+
+    <select id="getCommentById" resultType="java.util.Map">
+        select c.content,c.commentTime,u.username,ui.avatar from comment c
+            left outer join user u on c.userID = u.userID
+            left join user_info ui on u.userID = ui.userID
+        where newsID = #{newsID}
+    </select>
 
 </mapper>

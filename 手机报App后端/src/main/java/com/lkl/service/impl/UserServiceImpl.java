@@ -7,6 +7,7 @@ import com.lkl.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,9 +27,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public Integer addUserByEmail(User user) {
-        Integer res = userMapper.addUserByEmail(user);
-        Integer userId = userMapper.getUserId(user);
+    public Integer addUserByEmail(Map<String, String> params) {
+        Integer userNum = userMapper.selectUserNum();
+        params.put("userNum","追风少年" + (userNum + 1));
+        Integer res = userMapper.addUserByEmail(params);
+        Integer userId = userMapper.getUserId(params);
         Integer res2 = userMapper.addUserInfo(userId);
         return res;
     }
@@ -40,6 +43,37 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     public Integer getUserByEmail(String email){
         return userMapper.getUserByEmail(email);
+    }
+
+    @Override
+    public Map<String, Object> getUserAllInfo(Map<String, String> params) {
+        return userMapper.getUserAllInfo(params);
+    }
+
+    @Override
+    public Object follower(Map<String, Object> params) {
+        if (Integer.parseInt(params.get("option").toString()) == 1){
+            return userMapper.addFollower(params);
+        } else if (Integer.parseInt(params.get("option").toString()) == 2) {
+            return userMapper.delFollower(params);
+        } else if (Integer.parseInt(params.get("option").toString()) == 3) {
+            return userMapper.selectFollower(params);
+        } else if (Integer.parseInt(params.get("option").toString()) == 4) {
+            List<Map<String, Object>> maps = userMapper.selectFollowers(params);
+            for (Map<String, Object> map :
+                    maps) {
+                map.put("isguanzhu", true);
+                map.put("btnCss", "round margin-lr-sm cu-btn round bg-gray");
+            }
+            return maps;
+        }
+
+        return null;
+    }
+
+    @Override
+    public Object updateUserInfo(Map<String, Object> params) {
+        return userMapper.updateUserInfo(params);
     }
 }
 

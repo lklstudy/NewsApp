@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -29,8 +30,8 @@ public class userController {
     }
 
     @PostMapping("/addUser")
-    public Integer addUser(@RequestBody User user) {
-        return userService.addUserByEmail(user);
+    public Integer addUser(@RequestBody Map<String, String> params) {
+        return userService.addUserByEmail(params);
     }
 
     @PostMapping ("/login")
@@ -44,4 +45,19 @@ public class userController {
         System.out.println(userService.getUserByEmail(userEmail));
         return userService.getUserByEmail(userEmail);
     }
+
+    @PostMapping("/getUserAllInfo")
+    public Map<String,Object> getUserAllInfo(@RequestBody Map<String, String> params) {
+        return userService.getUserAllInfo(params);
+    }
+    @PostMapping("/follower")
+    public Object follower(@RequestBody Map<String, Object> params) {
+        return userService.follower(params);
+    }
+
+    @PostMapping("/updateUserInfo")
+    public Object updateUserInfo(@RequestBody Map<String, Object> params) {
+        return userService.updateUserInfo(params);
+    }
+
 }

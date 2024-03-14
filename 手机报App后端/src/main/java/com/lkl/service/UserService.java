@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.lkl.domain.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,9 +16,15 @@ public interface UserService extends IService<User> {
 
     User selectUserByEmail(String email);
 
-    Integer addUserByEmail(User user);
+    Integer addUserByEmail(Map<String, String> params);
 
     Map<String,Object> loginByEmail(User user);
 
     Integer getUserByEmail(String email);
+
+    Map<String, Object> getUserAllInfo(Map<String, String> params);
+
+    Object follower(Map<String, Object> params);
+
+    Object updateUserInfo(Map<String, Object> params);
 }

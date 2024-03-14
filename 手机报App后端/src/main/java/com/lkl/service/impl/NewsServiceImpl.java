@@ -8,7 +8,9 @@ import com.lkl.mapper.NewsMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
 * @author 31033
@@ -23,6 +25,51 @@ public class NewsServiceImpl extends ServiceImpl<NewsMapper, News>
     private NewsMapper newsMapper;
     public Map<String,Object> getNewsById(String newsid,String userid){
         return newsMapper.getNewsById(newsid,userid);
+    }
+
+    @Override
+    public List<Map<String, Object>> getType() {
+        return newsMapper.getType();
+    }
+
+    @Override
+    public Integer addType(String typeName,String userID) {
+        return newsMapper.addType(typeName,userID);
+    }
+
+    @Override
+    public Integer delAndEditType(String typeName, String typeID) {
+        if ("".equals(typeName) || Objects.isNull(typeName)){
+            return newsMapper.delType(typeID);
+        }else {
+            return newsMapper.EditType(typeName,typeID);
+        }
+    }
+
+    @Override
+    public Integer addNews(Map<String, String> params) {
+        return newsMapper.addNews(params);
+    }
+
+    @Override
+    public List<Map<String, Object>> getNewsByTitle(Map<String, String> params) {
+        return newsMapper.getNewsByTitle(params);
+    }
+
+    @Override
+    public Object delOrUpdateNews(Map<String, Object> params) {
+        if (Integer.parseInt(params.get("option").toString()) == 1){
+            return newsMapper.delNow(params);
+        }
+        if (Integer.parseInt(params.get("option").toString()) == 2){
+            return newsMapper.updateNews(params);
+        }
+        return null;
+    }
+
+    @Override
+    public Object searchCollectionNews(Map<String, Object> params) {
+        return newsMapper.searchCollectionNews(params);
     }
 }
 

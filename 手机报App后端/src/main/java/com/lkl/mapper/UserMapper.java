@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lkl.domain.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -19,9 +20,9 @@ public interface UserMapper extends BaseMapper<User> {
 
     User selectByEmailUser(String email);
 
-    Integer addUserByEmail(User user);
+    Integer addUserByEmail(Map<String, String> params);
 
-    Integer getUserId(User user);
+    Integer getUserId(Map<String, String> params);
 
     Integer addUserInfo(Integer userId);
 
@@ -30,6 +31,19 @@ public interface UserMapper extends BaseMapper<User> {
     Integer getUserByEmail(String email);
 
 
+    Map<String, Object> getUserAllInfo(Map<String, String> params);
+
+    Integer addFollower(Map<String, Object> params);
+
+    Integer delFollower(Map<String, Object> params);
+
+    List<Map<String,Object>> selectFollowers(Map<String, Object> params);
+
+    Integer selectFollower(Map<String, Object> params);
+
+    Integer selectUserNum();
+
+    Integer updateUserInfo(Map<String, Object> params);
 }
 
 

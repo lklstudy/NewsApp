@@ -9,7 +9,7 @@
             <result property="title" column="title" jdbcType="VARCHAR"/>
             <result property="content" column="content" jdbcType="VARCHAR"/>
             <result property="tags" column="tags" jdbcType="VARCHAR"/>
-            <result property="typeid" column="typeID" jdbcType="INTEGER"/>
+            <result property="typeid" column="type" jdbcType="INTEGER"/>
             <result property="userid" column="userID" jdbcType="INTEGER"/>
             <result property="createtime" column="createTime" jdbcType="TIMESTAMP"/>
             <result property="updatetime" column="updateTime" jdbcType="TIMESTAMP"/>
@@ -21,13 +21,69 @@
         tags,typeID,userID,
         createTime,updateTime,reviewID
     </sql>
+    <insert id="addType">
+        insert into type (typeName, createTime, userID) values (#{typeName},NOW(),#{userID})
+    </insert>
+
+    <insert id="addNews">
+            insert into news (title, content, type, userID,createTime,newsAtar) values (#{title},#{content},#{type},#{userID},NOW(),#{src})
+    </insert>
+
+    <update id="EditType">
+        UPDATE type
+        SET typeName = #{typeName}
+        WHERE typeID = #{typeID};
+    </update>
+
+    <update id="updateNews">
+        UPDATE news
+        SET title = #{title},content = #{content},updateTime = NOW(),newsAtar = #{src},type = #{type}
+        WHERE newsID = #{newsID};
+    </update>
+    <delete id="delType">
+        delete from type where typeID = #{typeID}
+    </delete>
+    <delete id="delNow">
+        delete from news where newsID = #{newsID}
+    </delete>
+
     <select id="getNewsById" resultType="map">
-        select n1.title,n1.createTime,(select count(*) from likes where likes.newsID = newsID) as likesNumber,(select count(*) from favorite where favorite.newsID = newsID) as collectNumber,n1.content,n1.newsAtar,u.username,
-               (select count(*) from likes where likes.newsID = newsID and likes.userID = #{userid}) as myLike,
-               (select count(*) from favorite where favorite.newsID = newsID and favorite.userID = #{userid}) as myCollect
+        select n1.type,t.typeName,n1.userID,n1.title,n1.createTime,(select count(*) from likes where likes.newsID = #{newsid}) as likesNumber,(select count(*) from favorite where favorite.newsID = #{newsid}) as collectNumber,n1.content,n1.newsAtar,u.username,
+               (select count(*) from likes where likes.newsID = #{newsid} and likes.userID = #{userid}) as myLike,
+               (select count(*) from favorite where favorite.newsID = #{newsid} and favorite.userID = #{userid}) as myCollect
         from news n1
                  left join user u on n1.userID = u.userID
-        where newsID = #{newsid}
+                 left join type t on t.typeID = n1.userID
+        where n1.newsID = #{newsid} and n1.is_delete = 0
+
+    </select>
+    <select id="getType" resultType="java.util.Map">
+        select * from type
+    </select>
+
+    <select id="getNewsByTitle" resultType="java.util.Map">
+        select n.*,t.typeName from news n left outer join type t on n.type = t.typeID
+        <where>
+            1 = 1
+            <if test="typeName != null and typeName != ''">
+                and t.typeName = #{typeName}
+            </if>
+            <if test="searchValue != null and searchValue != ''">
+                and n.title LIKE CONCAT('%', #{searchValue}, '%')
+            </if>
+            and n.is_delete = 0
+            order by n.createTime desc
+        </where>
+    </select>
+    <select id="searchCollectionNews" resultType="java.util.Map">
+        select n.*,t.typeName from favorite f
+           left join news n on f.newsID = n.newsID
+           left join type t on n.type = t.typeID
+        where
+            1 = 1
+          and f.userID = #{userID}
+          and n.is_delete = 0
+        order by n.createTime desc
 
     </select>
 </mapper>
