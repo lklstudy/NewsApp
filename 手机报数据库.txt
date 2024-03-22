@@ -1,0 +1,250 @@
+news数据库名
+
+create table news.comment
+(
+    commentID   int auto_increment comment '评论ID（Comment ID），唯一标识每条评论'
+        primary key,
+    userID      int        null comment '用户ID（User ID），关联到用户表中的用户ID字段',
+    newsID      int        null comment '新闻ID（News ID），关联到新闻表中的新闻ID字段',
+    content     mediumtext null comment '评论内容（Content）',
+    commentTime datetime   null comment '评论时间（Comment Time）'
+)
+    comment '评论表' charset = utf8;
+
+create table news.favorite
+(
+    favoriteID   int auto_increment comment '收藏ID（Favorite ID），唯一标识每个收藏'
+        primary key,
+    userID       int      null comment '用户ID（User ID），关联到用户表中的用户ID字段',
+    newsID       int      null comment '新闻ID（News ID），关联到新闻表中的新闻ID字段',
+    favoriteTime datetime null comment '收藏时间（Favorite Time）'
+)
+    comment '收藏表' charset = utf8;
+
+
+create table news.follow
+(
+    ID         int auto_increment
+        primary key,
+    folleredID varchar(50) null,
+    followerID varchar(50) null,
+    followTime timestamp   null
+)
+    collate = utf8mb4_unicode_ci;
+
+create table news.likes
+(
+    likeID   int auto_increment comment '点赞ID（Like ID），唯一标识每个点赞'
+        primary key,
+    userID   int         null comment '用户ID（User ID），外键',
+    newsID   int         null comment '新闻ID（News ID），外键',
+    likeTime datetime    null comment '点赞时间（Like Time）',
+    likeType varchar(32) null comment '点赞类型（Like Type），可以是新闻或评论'
+)
+    comment '点赞表' charset = utf8;
+
+create table news.news
+(
+    newsID     int auto_increment comment '新闻ID（News ID）'
+        primary key,
+    title      varchar(255)  null comment '标题（Title）',
+    content    mediumtext    null comment '内容（Content）',
+    tags       varchar(100)  null comment '标签（Tags）',
+    type       int           null comment '分类ID （Type ID）',
+    userID     int           null comment '用户ID（User ID）',
+    createTime datetime      null comment '创建时间（Create Time）',
+    updateTime datetime      null comment '修改时间（Update Time）',
+    reviewID   int           null comment '审核表ID（Review ID）',
+    newsAtar   varchar(255)  null comment '图片地址',
+    is_delete  int default 0 null
+)
+    comment '新闻表' charset = utf8;
+
+create table news.record
+(
+    recordID  int      not null comment '浏览记录ID'
+        primary key,
+    userID    int      null comment '用户ID，用于标识每个用户的唯一ID',
+    newsID    int      null comment '新闻ID，用于标识每篇新闻的唯一ID',
+    startTime datetime null comment '浏览开始时间',
+    duration  int      null comment '阅读时长,记录用户阅读该新闻的时长，可用于分析用户对不同类型新闻的关注度和阅读习惯'
+)
+    comment '浏览记录表' charset = utf8;
+
+create table news.reply
+(
+    replyID       int        not null comment '回复ID（Reply ID），唯一标识每个回复'
+        primary key,
+    newsID        int        null comment '新闻ID（News ID），外键',
+    userID        int        null comment '回复人ID（User ID），外键',
+    repliedUserID int        null comment '被回复人ID（Replied User ID），外键',
+    commentID     int        null comment '评论ID（Comment ID），外键',
+    content       mediumtext null comment '回复内容（Content）',
+    replyTime     datetime   null comment '回复时间（Reply Time）'
+)
+    comment '回复表' charset = utf8;
+
+create table news.review
+(
+    reviewID      int         not null comment '审核ID'
+        primary key,
+    newsID        int         null comment '新闻ID（review ID）',
+    reviewerID    int         null comment '审核员ID（Reviewer ID）',
+    reviewTime    datetime    null comment '审核时间（Review Time）',
+    reviewStatus  varchar(20) null comment '审核状态（Review Status）',
+    reviewComment mediumtext  null comment '审核意见（Review Comment）'
+)
+    comment '审核表' charset = utf8;
+
+create table news.type
+(
+    typeID     int auto_increment
+        primary key,
+    typeName   varchar(255) collate utf8mb4_unicode_ci null,
+    createTime datetime                                null,
+    userID     int                                     not null
+);
+
+create table news.user
+(
+    userID           int auto_increment comment '用户ID（User ID），唯一标识每一个用户'
+        primary key,
+    username         varchar(50)  null comment '用户名（Username）',
+    password         varchar(100) null comment '密码（Password）',
+    email            varchar(100) null comment '邮箱（Email）',
+    registrationTime datetime     null comment '注册时间（Registration Time）'
+)
+    comment '用户登录表' charset = utf8;
+
+create table news.user_info
+(
+    userID       int          not null comment '用户ID（User ID），外键'
+        primary key,
+    nickname     varchar(50)  null comment '昵称（Nickname）',
+    gender       varchar(10)  null comment '性别（Gender）',
+    birthday     datetime     null comment '生日（Birthday）',
+    avatar       varchar(255) null comment '头像（Avatar）',
+    bio          mediumtext   null comment '个人简介（Bio）',
+    region       varchar(50)  null comment '地区（Region）',
+    creationTime datetime     null comment '创建时间（Creation Time）'
+)
+    comment '用户信息表' charset = utf8;
+
+
+INSERT INTO news.comment (commentID, userID, newsID, content, commentTime) VALUES (1, 10000, 1000, '达瓦伟大伟大伟大达娃大大王', '2024-02-28 16:15:34');
+INSERT INTO news.comment (commentID, userID, newsID, content, commentTime) VALUES (2, 10017, 1000, '开火车v想哭就哭或许就', '2024-02-28 16:16:39');
+INSERT INTO news.comment (commentID, userID, newsID, content, commentTime) VALUES (12, 10000, 1000, '达瓦达瓦', '2024-03-02 13:30:16');
+INSERT INTO news.comment (commentID, userID, newsID, content, commentTime) VALUES (13, 10000, 1000, 'asdawd', '2024-03-02 22:34:04');
+INSERT INTO news.comment (commentID, userID, newsID, content, commentTime) VALUES (14, 10000, 1000, '123', '2024-03-05 13:32:06');
+INSERT INTO news.comment (commentID, userID, newsID, content, commentTime) VALUES (15, 10000, 1003, '123123123', '2024-03-05 14:39:59');
+INSERT INTO news.comment (commentID, userID, newsID, content, commentTime) VALUES (16, 10017, 1000, 'dawdawdawdawdaawdawdasdawdasdaw', '2024-03-05 14:58:33');
+INSERT INTO news.comment (commentID, userID, newsID, content, commentTime) VALUES (17, 10017, 1004, 'dasdawdawd', '2024-03-05 16:02:12');
+INSERT INTO news.comment (commentID, userID, newsID, content, commentTime) VALUES (18, 10000, 1005, 'qweqw', '2024-03-05 21:57:15');
+INSERT INTO news.comment (commentID, userID, newsID, content, commentTime) VALUES (19, 10000, 1000, 'adawdaw', '2024-03-05 22:52:33');
+INSERT INTO news.comment (commentID, userID, newsID, content, commentTime) VALUES (20, 10017, 1006, '大碗大苏打', '2024-03-08 11:05:02');
+INSERT INTO news.comment (commentID, userID, newsID, content, commentTime) VALUES (21, 10017, 1007, '啊撒大网的', '2024-03-08 11:05:38');
+INSERT INTO news.comment (commentID, userID, newsID, content, commentTime) VALUES (22, 10017, 1007, '啊伟大伟大伟大', '2024-03-08 11:05:43');
+INSERT INTO news.comment (commentID, userID, newsID, content, commentTime) VALUES (23, 10022, 1009, 'awdawd', '2024-03-08 23:13:11');
+INSERT INTO news.comment (commentID, userID, newsID, content, commentTime) VALUES (24, 10024, 1010, '123123', '2024-03-09 16:48:55');
+INSERT INTO news.comment (commentID, userID, newsID, content, commentTime) VALUES (25, 10017, 1005, 'dawd', '2024-03-13 17:26:48');
+INSERT INTO news.comment (commentID, userID, newsID, content, commentTime) VALUES (26, 10017, 1011, 'dawdaw', '2024-03-14 11:31:29');
+INSERT INTO news.comment (commentID, userID, newsID, content, commentTime) VALUES (27, 10017, 1013, '啊伟大时代', '2024-03-14 14:26:51');
+INSERT INTO news.comment (commentID, userID, newsID, content, commentTime) VALUES (29, 10017, 1013, '撒大网', '2024-03-14 14:27:13');
+INSERT INTO news.comment (commentID, userID, newsID, content, commentTime) VALUES (30, 10017, 1013, 'asdaw', '2024-03-14 14:27:31');
+
+INSERT INTO news.favorite (favoriteID, userID, newsID, favoriteTime) VALUES (7, 10000, 1000, '2024-03-05 14:28:19');
+INSERT INTO news.favorite (favoriteID, userID, newsID, favoriteTime) VALUES (9, 10000, 1003, '2024-03-05 14:36:33');
+INSERT INTO news.favorite (favoriteID, userID, newsID, favoriteTime) VALUES (13, 10000, 1005, '2024-03-05 22:04:41');
+INSERT INTO news.favorite (favoriteID, userID, newsID, favoriteTime) VALUES (14, 10000, 1004, '2024-03-05 23:24:28');
+INSERT INTO news.favorite (favoriteID, userID, newsID, favoriteTime) VALUES (15, 10024, 1010, '2024-03-09 16:49:02');
+INSERT INTO news.favorite (favoriteID, userID, newsID, favoriteTime) VALUES (16, 10024, 1007, '2024-03-09 17:16:41');
+INSERT INTO news.favorite (favoriteID, userID, newsID, favoriteTime) VALUES (17, 10024, 1009, '2024-03-09 17:16:48');
+INSERT INTO news.favorite (favoriteID, userID, newsID, favoriteTime) VALUES (18, 10024, 1006, '2024-03-09 17:16:54');
+INSERT INTO news.favorite (favoriteID, userID, newsID, favoriteTime) VALUES (19, 10024, 1000, '2024-03-09 17:17:02');
+INSERT INTO news.favorite (favoriteID, userID, newsID, favoriteTime) VALUES (21, 10017, 1000, '2024-03-14 13:19:42');
+INSERT INTO news.favorite (favoriteID, userID, newsID, favoriteTime) VALUES (24, 10000, 1013, '2024-03-14 14:28:48');
+INSERT INTO news.favorite (favoriteID, userID, newsID, favoriteTime) VALUES (25, 10022, 1011, '2024-03-15 11:22:16');
+INSERT INTO news.favorite (favoriteID, userID, newsID, favoriteTime) VALUES (26, 10022, 1005, '2024-03-15 11:22:24');
+
+INSERT INTO news.follow (ID, folleredID, followerID, followTime) VALUES (49, '10022', '10024', '2024-03-09 16:51:44');
+INSERT INTO news.follow (ID, folleredID, followerID, followTime) VALUES (50, '10000', '10024', '2024-03-09 16:51:50');
+INSERT INTO news.follow (ID, folleredID, followerID, followTime) VALUES (51, '10017', '10024', '2024-03-09 16:52:02');
+INSERT INTO news.follow (ID, folleredID, followerID, followTime) VALUES (52, '10022', '10000', '2024-03-09 22:52:59');
+INSERT INTO news.follow (ID, folleredID, followerID, followTime) VALUES (56, '10024', '10017', '2024-03-14 09:42:59');
+INSERT INTO news.follow (ID, folleredID, followerID, followTime) VALUES (57, '10017', '10000', '2024-03-14 14:28:43');
+INSERT INTO news.follow (ID, folleredID, followerID, followTime) VALUES (58, '10024', '10000', '2024-03-14 14:29:32');
+INSERT INTO news.follow (ID, folleredID, followerID, followTime) VALUES (59, '10000', '10022', '2024-03-15 11:22:27');
+INSERT INTO news.follow (ID, folleredID, followerID, followTime) VALUES (60, '10017', '10022', '2024-03-15 11:22:55');
+
+INSERT INTO news.likes (likeID, userID, newsID, likeTime, likeType) VALUES (27, 10000, 1003, '2024-03-05 14:40:19', null);
+INSERT INTO news.likes (likeID, userID, newsID, likeTime, likeType) VALUES (28, 10000, 1004, '2024-03-05 14:46:20', null);
+INSERT INTO news.likes (likeID, userID, newsID, likeTime, likeType) VALUES (30, 10000, 1005, '2024-03-05 17:28:28', null);
+INSERT INTO news.likes (likeID, userID, newsID, likeTime, likeType) VALUES (33, 10017, 1006, '2024-03-08 15:38:28', null);
+INSERT INTO news.likes (likeID, userID, newsID, likeTime, likeType) VALUES (34, 10024, 1010, '2024-03-09 16:49:01', null);
+INSERT INTO news.likes (likeID, userID, newsID, likeTime, likeType) VALUES (35, 10024, 1007, '2024-03-09 17:16:40', null);
+INSERT INTO news.likes (likeID, userID, newsID, likeTime, likeType) VALUES (36, 10024, 1009, '2024-03-09 17:16:47', null);
+INSERT INTO news.likes (likeID, userID, newsID, likeTime, likeType) VALUES (37, 10024, 1003, '2024-03-09 17:16:57', null);
+INSERT INTO news.likes (likeID, userID, newsID, likeTime, likeType) VALUES (38, 10024, 1000, '2024-03-09 17:17:01', null);
+INSERT INTO news.likes (likeID, userID, newsID, likeTime, likeType) VALUES (39, 10017, 1005, '2024-03-13 17:26:58', null);
+INSERT INTO news.likes (likeID, userID, newsID, likeTime, likeType) VALUES (40, 10017, 1010, '2024-03-14 09:43:02', null);
+INSERT INTO news.likes (likeID, userID, newsID, likeTime, likeType) VALUES (42, 10000, 1013, '2024-03-14 14:28:47', null);
+INSERT INTO news.likes (likeID, userID, newsID, likeTime, likeType) VALUES (43, 10017, 1000, '2024-03-17 09:04:34', null);
+
+
+INSERT INTO news.news (newsID, title, content, tags, type, userID, createTime, updateTime, reviewID, newsAtar, is_delete) VALUES (1000, 'Objective-c简介', 'Objective-C是一种简单的计算机语言，设计为阿瓦达吴大维大大伟大达瓦达瓦可以支持真正的面向对象编程。Objective-C通过提供类定义，方法以及属性的语法，还有其他可以提高类的动态扩展能力的结构等,扩展了标准的ANSIC语言。类的语法和设计主要是基于Smalltalk，最早的面向对象', '', 27, 10000, '2024-02-28 15:53:29', null, null, '/static/bendi/QQ图片20240120130608.jpg', 0);
+INSERT INTO news.news (newsID, title, content, tags, type, userID, createTime, updateTime, reviewID, newsAtar, is_delete) VALUES (1003, 'adwwwwwwwwwwwww', '语法，还有其他可以提高类的动态扩展能力的结构等,扩展了标准的ANSIC语言。类的语法和设计主要是基于Smalltalk，最早的面向对象', null, 27, 10000, '2024-03-05 13:40:10', null, null, 'http://localhost:9090/images/20240305134008.jpg', 0);
+INSERT INTO news.news (newsID, title, content, tags, type, userID, createTime, updateTime, reviewID, newsAtar, is_delete) VALUES (1004, 'dawdawdawd', '语法，还有其他可以提高类的动态扩展能力的结构等,扩展了标准的ANSIC语言。类的语法和设计主要是基于Smalltalk，最早的面向对象', null, 17, 10000, '2024-03-05 14:46:06', null, null, 'http://localhost:9090/images/20240305144605.jpg', 0);
+INSERT INTO news.news (newsID, title, content, tags, type, userID, createTime, updateTime, reviewID, newsAtar, is_delete) VALUES (1005, 'wawdawdasdawdw', 'asdasdawdasdasda', null, 27, 10000, '2024-03-05 17:26:54', '2024-03-14 14:55:38', null, 'http://localhost:9090/images/20240314145536.png', 0);
+INSERT INTO news.news (newsID, title, content, tags, type, userID, createTime, updateTime, reviewID, newsAtar, is_delete) VALUES (1009, '毅力人生最美的品质', '最近看了《没有双腿，娶漂亮老婆，儿女双全！连明星都为他下跪》的视频，感人至深。讲的是残疾人陈州的故事。谁会相信，不识字、不懂乐谱、不懂乐理，靠死记硬背，成为一名出色的流浪歌手；谁会相信，没有双腿，只有半截身躯的人竟然走过了全国700多个城市；一个没有双腿的人竟然喜欢登山，从18岁开始他登上了全国90多座高山，光泰山就登了13次。2012年，他靠双手登上了海拔总和8498米的中国五岳，成为全球“双手登五岳”第一人。就这样一个残疾人竟然给妻子儿女买房、买车，还多次为灾区捐款，2013年8月，他登上了《超级演说家》的舞台，演讲震撼了所有观众！他凭什么，就凭着积极乐观的人生态度，凭着一股顽强的毅力！人的一生，不经过努力将是一事无成。在努力中如果缺乏毅力也终将半途而废。我小时候记忆最深的一句话“无志之人常立志，有志之人立志长”，现在回想起来，这条人生哲理就和人的毅力分不开。
+                                                                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                                           不管做什么事，要做就要付出百倍的努力，要有一种不达目的誓不罢休的意志，尽管世上的事常常不能尽如人意，也许经过努力仍将一无所获，但努力了、拼搏了，和坐等其成完全是两码事，不可同日而语。只要你有百折不回的意志，有顽强拼搏的毅力，最终的胜利一定是你的。
+                                                                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                                           人是有惰性的，每个人都一样。但成功与失败的差异在哪？就在坚持与放弃中，在你的毅力上。
+                                                                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                                           记得我小学毕业的1976年，只有11岁，学校响应“开门办学”的号召，开展勤工俭学，经学校与高坝区供销社协商，组织学生给交通不便的地方背运商品货物，我们班上的同学在班主任汪老师的带领下，从高坝供销社领出货物，往长沟乡供销社来回背脚（即背货物），将商品背过去，又把长沟供销社收购的农副产品背到高坝，再运外面。我当时是班上年龄最小的，又是体质最差的，毅然走进背脚的队列。夜里两点就起床给自己做点饭吃了，带上干粮，到高坝供销社院子集合，领取所背货物。汪老师和一些年龄大一点的同学带着背运商品的背笼，我和几个年龄小一些的同学空手去领小物件。记得老师给我领了一根铁条，将两头弯成小圆圈，就像一个担子。我们喜气洋洋，一路说说笑笑出发了，我们背着月亮走着，不知不觉又背上了太阳，翻了几座山，越过几条沟，带的“脚”在肩上越来越重，实在背不动了，正好到下山路上，索性把我的“扁担”翻过来，胳膊伸进圆圈中往山下拖，随着铁条在石头浪上震动的声响，胳膊也很快被震麻了，又换上另一只胳膊，麻了再换，实在走不动了，胳膊也麻的不行了，就歇会儿继续赶路。一个看似小小的铁条条，从肩挑，到手拖，肩磨破了，胳膊震麻了，还是运不到地方，让我知道了寸步难行的含义。我多次都恨不得把铁条扔在路上不管了，但我知道那是不行的，真是历尽了千辛万苦终于到目的地长沟乡供销社了。供销社给烧了一大锅开水，我们吃自带的干粮，喝完水再领回去的“脚”。当我问汪老师：“老师，我回去拿啥？”“你回去只要不叫人背你就行了！”我是唯一一个空着手往回返的。当月亮再次升高时，我们回到了学校，校长接到我们后第一句问话就是：“王芳今天哭没？”当汪老师说我没哭时，校长蛮赞许。时间过去了40来年，我也跨过天命之年，但这次经历在我的人生长河中永远无法抹去，这次历练使我受到了一次很好的教育。“做事就得有毅力！”也在心中扎下了根。
+                                                                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                                           我登过两次高山。虽然我没有去过泰山，不知道我所登的山阳县有名的馒头山和天竺山能不能和泰山相比，但在我眼里，那也够高了，高到我都没有勇气再次登上它，我还是上去了。让我感悟到：登上山顶不仅要靠体力和耐力，更要靠毅力！
+                                                                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                                           学习、创业也如同背脚、登山，仅凭一股热气、一股勇气也是不够的，更重要的是有毅力。
+                                                                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                                           人无完人。每个人都有弱点、缺点，要克服弱点，纠正缺点得靠什么？就得靠毅力！每个家长注意教育引导孩子能不断反思自己需要克服和纠正的地方，特别是需要用毅力去克服的地方，前进的步子能迈大些。
+                                                                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                                           如今，当我们面对自己的孩子，总希望能给孩子创造更为优越的物质条件和教育资源，但要让孩子吃吃苦，受点罪，我们是于心不忍的。虽然我们懂得“吃得苦中苦，方为人上人”的道理，但到了现实生活中就看不得孩子吃苦、吃亏、受罪。连一点苦也不能吃的孩子怎么能在其身上找到“毅力”的影子？怎么解决这种矛盾？
+                                                                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                                           我曾经给我女儿讲过曾国藩的故事，曾国藩说看一个家庭的兴败只看三个地方：第一看：看子孙睡到几点，假如睡到太阳已经升得很高的时候才起来，那代表这个家族会慢慢懈怠下来；第二看：看子孙有没有做家务，因为勤劳、劳动的习惯影响一个人一辈子；第三看：看后代子孙有没有在读圣贤的经典，“人不学，不知义，不知道”。我给女儿说这三点也非常适合你，要早起，特别是节假日，一定要用毅力克服惰性。“一年之计在于春，一日之计在于晨”；要劳动，劳动最能锻炼人，在劳动中培养吃苦精神，在劳动中培养毅力，锻炼毅力。有了毅力一切都会变为现实。
+', null, 17, 10022, '2024-03-08 23:11:23', null, null, 'http://localhost:9090/images/20240308231121.png', 0);
+INSERT INTO news.news (newsID, title, content, tags, type, userID, createTime, updateTime, reviewID, newsAtar, is_delete) VALUES (1010, '给生命添一点负担', '她生在富裕的家庭，衣食无忧，家里还有保姆照顾她的起居饮食。大学毕业之后，她本打算留在大学所在地工作，但找了几份工作，都是辛苦但赚钱甚少，兜兜转转半年后，在父母的一再劝说下，回到自己生活的小城。
+
+他们一家算得上是小城的富豪，经营着一间工厂，一家公司。公司她爸爸负责经营，工厂由她哥哥负责管理。
+
+也许是传统观念作怪吧，爸爸并未想将公司传给她，相反对她说：“你想来公司消磨时间就过来，若不想，就在家，等着找一个好丈夫，届时给你一大笔陪嫁；纵然找不到合适的丈夫，家里养你一辈子也没问题。”
+
+就这样，大学毕业后，她一直在家呆着，偶尔出去相相亲。但不知为何，没有一个上眼的。她也去过爸爸的公司，但啥都插不上', null, 29, 10024, '2024-03-09 16:48:24', null, null, 'http://localhost:9090/images/20240309164822.png', 0);
+INSERT INTO news.news (newsID, title, content, tags, type, userID, createTime, updateTime, reviewID, newsAtar, is_delete) VALUES (1011, 'dawdawdawd', 'asdasssswwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwsdawdawdawdasdawdddddddddddddddddddddddddddwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww', null, 17, 10017, '2024-03-14 09:46:36', '2024-03-14 11:32:23', null, 'http://localhost:9090/images/20240314094635.png', 0);
+INSERT INTO news.news (newsID, title, content, tags, type, userID, createTime, updateTime, reviewID, newsAtar, is_delete) VALUES (1012, 'dawasZXXXXXXXXXXXXXXXXX', '阿达水水水水水水水水水水水水水水水水安第斯山少时诵诗书少时诵诗书少时诵诗书吊带袜2', null, 33, 10017, '2024-03-14 14:19:18', '2024-03-14 14:25:02', null, 'http://localhost:9090/images/20240314141916.png', 0);
+INSERT INTO news.news (newsID, title, content, tags, type, userID, createTime, updateTime, reviewID, newsAtar, is_delete) VALUES (1013, 'sdaZXZXxa2222', '<p>asddddddddd阿迪王大碗大碗的达娃萨达萨达我按此执行操作手册才执行操作手册VS的VS的士大夫士大夫擦撒大无畏驱蚊器</p>', null, 30, 10017, '2024-03-14 14:26:07', '2024-03-23 00:38:59', null, null, 0);
+
+INSERT INTO news.type (typeID, typeName, createTime, userID) VALUES (17, '新闻', '2024-03-02 21:49:48', 10000);
+INSERT INTO news.type (typeID, typeName, createTime, userID) VALUES (27, '体育', '2024-03-04 17:05:38', 10000);
+INSERT INTO news.type (typeID, typeName, createTime, userID) VALUES (29, '成都', '2024-03-08 10:26:35', 10017);
+INSERT INTO news.type (typeID, typeName, createTime, userID) VALUES (30, '科幻', '2024-03-14 14:17:53', 10017);
+INSERT INTO news.type (typeID, typeName, createTime, userID) VALUES (31, '悬疑', '2024-03-14 14:17:59', 10017);
+INSERT INTO news.type (typeID, typeName, createTime, userID) VALUES (32, '爱情', '2024-03-14 14:18:05', 10017);
+INSERT INTO news.type (typeID, typeName, createTime, userID) VALUES (33, '古装', '2024-03-14 14:18:15', 10017);
+INSERT INTO news.type (typeID, typeName, createTime, userID) VALUES (34, '搞笑', '2024-03-14 14:18:24', 10017);
+
+
+INSERT INTO news.user (userID, username, password, email, registrationTime) VALUES (10000, '用户1', '123456', '3103313195@qq.com', '2024-01-11 00:28:49');
+INSERT INTO news.user (userID, username, password, email, registrationTime) VALUES (10017, '用户2', '123asd', '123123', '2024-02-29 10:33:36');
+INSERT INTO news.user (userID, username, password, email, registrationTime) VALUES (10022, '用户3', '123asd', '123123123', '2024-03-08 00:00:00');
+INSERT INTO news.user (userID, username, password, email, registrationTime) VALUES (10024, '用户4', '123asd', '1231231', '2024-03-09 00:00:00');
+
+
+INSERT INTO news.user_info (userID, nickname, gender, birthday, avatar, bio, region, creationTime) VALUES (10000, null, null, null, 'http://localhost:9090/images/20240310000157.png', null, null, null);
+INSERT INTO news.user_info (userID, nickname, gender, birthday, avatar, bio, region, creationTime) VALUES (10017, null, null, null, 'http://localhost:9090/images/20240313162828.png', null, null, null);
+INSERT INTO news.user_info (userID, nickname, gender, birthday, avatar, bio, region, creationTime) VALUES (10022, null, null, null, '/static/bendi/QQ图片20240120130608.jpg', null, null, '2024-03-08 00:00:00');
+INSERT INTO news.user_info (userID, nickname, gender, birthday, avatar, bio, region, creationTime) VALUES (10024, null, null, null, '/static/bendi/QQ图片20240120130608.jpg', null, null, '2024-03-09 00:00:00');
+
+
+
+
