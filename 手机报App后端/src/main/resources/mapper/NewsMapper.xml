@@ -62,7 +62,9 @@
     </select>
 
     <select id="getNewsByTitle" resultType="java.util.Map">
-        select n.*,t.typeName from news n left outer join type t on n.type = t.typeID
+        select n.*,t.typeName,u.userName from news n
+            left outer join type t on n.type = t.typeID
+            left join user u on n.userID = u.userID
         <where>
             1 = 1
             <if test="typeName != null and typeName != ''">
